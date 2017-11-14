@@ -70,10 +70,14 @@ while True:
         lastUsernameBar = str(lastUsernameBar)
         userIdBar = browser.execute_script("return getUserIdFromName(\"" + lastUsernameBar + "\")")
         userIdBar = str(userIdBar)
-        cursor.execute("insert into chatlogs values(0, 2, current_timestamp, \"" + userIdBar + "\", \"" + lastUsernameBar + "\", \"" + lastCharacterBar + "\", \"" + messageBar + "\")")
-        cursor.execute("commit")
-        browser.execute_script("loggedBar = true")
-        print lastUsernameBar
+        try:
+            cursor.execute("insert into chatlogs values(0, 2, current_timestamp, \"" + userIdBar + "\", \"" + lastUsernameBar + "\", \"" + lastCharacterBar + "\", \"" + messageBar + "\")")
+            cursor.execute("commit")
+            browser.execute_script("loggedBar = true")
+            print lastUsernameBar
+        except Exception as e:
+            print (e)
+            pass
     if disconnect == "true": #check if javascript received DC signal
         try:
             print "Disconnect detected: Reloading..."

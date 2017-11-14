@@ -9,7 +9,7 @@ botRoom = 206206
 botTextColor = "ffg0g0"
 owner = ["100942"]
 blocked = [""]
-lastReadIndex = messagesRoom[activeRoom].length - 1 
+lastReadIndex = messagesRoom[activeRoom].length - 1
 allowed = null
 owner.name = "owner"
 regular = "regular"
@@ -20,7 +20,7 @@ lastCharacter = null
 messageBar = ""
 lastCharacterBar = null
 lastUsernameBar = null
-lastReadIndexBar = messagesRoom[2].length + 1 
+lastReadIndexBar = messagesRoom[2].length + 1
 link = null
 loggedBar = false
 
@@ -28,23 +28,23 @@ function r(str, len) {
 	var colors = ["ffg0g0", "ffffg0", "00ffg0", "g0ffg0", "g0ff00", "g0ffff", "g000ff", "g0g0ff", "00g0ff", "ffg0ff", "ffg000"];
 	var cIndex = 0;
         var incriment = true;
- 
+
         for (var i = 0; i < len; i++) {
 	// Determine which direction to parse colors array.
 		if (incriment) {
 			cIndex++;
-		} 
+		}
 		else {
 			cIndex--;
 		}
- 
+
 		// Send message with delay. Delay time multiplied by index.
 		setTimeout(backend_sendmessage(0, 0, activeRoom, 0, str, false, colors[cIndex], false), 200 * i);
- 
+
 		// Recalculate loop direction for colors.
 		if (cIndex >= colors.length - 1) {
         	        incriment = false;
-		} 
+		}
 		else if (cIndex <= 0) {
          	       incriment = true;
 		}
@@ -64,7 +64,7 @@ function userAge() {
 				continue
 			}
 			if (nara.includes(parseInt(aran[i][0])) == true) {
-				
+
 				piece = a + ": " + aran[i][0] + " " + aran[i][1] + ", "
 				whole = whole.concat(piece)
 				a++
@@ -192,8 +192,8 @@ function help() {
 }
 
 function commandList() {
-	switch (message) {
-		case '!rainbow': 
+	switch (message.toLowerCase()) {
+		case '!rainbow':
 			rainbow()
 			break;
 		case '!help':
@@ -202,10 +202,10 @@ function commandList() {
 		case '!exit':
 			exit()
 			break;
-		case '!hi': 
+		case '!hi':
 			hi()
 			break;
-		case 'test': 
+		case 'test':
 			test()
 			break;
 		case '!ages':
@@ -217,10 +217,10 @@ function commandList() {
 function roomCheck() {
 	if (currentRoom != activeRoom) {
 		currentRoom = activeRoom
-		lastReadIndex = messagesRoom[activeRoom].length - 1 
+		lastReadIndex = messagesRoom[activeRoom].length - 1
 	}
 }
-	
+
 
 function accessLevel(level) {
 	lastUserID = getUserIdFromName(lastUsername)
@@ -251,7 +251,7 @@ function extractMessagePartsBar() {
 		if (messageBar.includes("return false;\">") == true) {
 			messageBar = messageBar.substring(messageBar.indexOf("return false;\">") + 15) //cuts off everything before the name
 			lastCharacterBar = messageBar.substring(0, messageBar.indexOf("</a>")) //extracts the last username from the characters expected to be right after it.
-		} 
+		}
 		if (messageBar.includes("color: #") == true) {
 			messageBar = messageBar.substring(messageBar.indexOf("color: #") + 16) //cuts the message down to the message itself
 			messageBar = messageBar.substring(0, messageBar.indexOf("</span>")) //final trim for cleaned message
@@ -265,7 +265,7 @@ function extractMessagePartsBar() {
 		if (messageBar.includes("return false;\">") == true) {
 			messageBar = messageBar.substring(messageBar.indexOf("return false;\">") + 15) //cuts off everything before the name
 			lastUsernameBar = messageBar.substring(0, messageBar.indexOf("</a>")) //extracts the last username from the characters expected to be right after it.
-		} 
+		}
 		if (messageBar.includes("color: #") == true) {
 			messageBar = messageBar.substring(messageBar.indexOf("color: #") + 16) //cuts the message down to the message itself
 			messageBar = messageBar.substring(0, messageBar.indexOf("</span>")) //final trim for cleaned message
@@ -284,7 +284,7 @@ function extractMessageParts() {
 		if (message.includes("return false;\">") == true) {
 			message = message.substring(message.indexOf("return false;\">") + 15) //cuts off everything before the name
 			lastCharacter = message.substring(0, message.indexOf("</a>")) //extracts the last username from the characters expected to be right after it.
-		} 
+		}
 		if (message.includes("color: #") == true) {
 			message = message.substring(message.indexOf("color: #") + 16) //cuts the message down to the message itself
 			message = message.substring(0, message.indexOf("</span>")) //final trim for cleaned message
@@ -298,7 +298,7 @@ function extractMessageParts() {
 		if (message.includes("return false;\">") == true) {
 			message = message.substring(message.indexOf("return false;\">") + 15) //cuts off everything before the name
 			lastUsername = message.substring(0, message.indexOf("</a>")) //extracts the last username from the characters expected to be right after it.
-		} 
+		}
 		if (message.includes("color: #") == true) {
 			message = message.substring(message.indexOf("color: #") + 16) //cuts the message down to the message itself
 			message = message.substring(0, message.indexOf("</span>")) //final trim for cleaned message
@@ -310,7 +310,7 @@ function getLinkTitle() {
 	if (message.includes("http") == true) {
 		link = message.substring(message.indexOf("http"))
 		if (link.includes(" ") == true) {
-			link = message.substring(0, message.indexOf(" ")) 
+			link = message.substring(0, message.indexOf(" "))
 		}
 	}
 }
@@ -321,7 +321,7 @@ function myLoop () {
  //the main function
 
 	setTimeout(function () { //delays loop
-		
+
 		getLinkTitle()
 
 		roomCheck()
@@ -348,42 +348,42 @@ function myLoop () {
 		}
 
 		//if new index is available, process new message then increment index check
-		else{  
+		else{
 			lastReadIndex++
  			message = messagesRoom[activeRoom][lastReadIndex][1]
 			extractMessageParts()
-			
+
 			commandList()
-			if (message.substring(0,6) == "!slap ") {
+			if (message.toLowerCase().substring(0,6) == "!slap ") {
 				slap()
 			}
-			if (message.substring(0,7) == "!getid ") {
+			if (message.toLowerCase().substring(0,7) == "!getid ") {
 				getID()
 			}
-			if (message.substring(0,7) == "!color ") {
+			if (message.toLowerCase().substring(0,7) == "!color ") {
 				changeColor()
 			}
-			if (message.substring(0,5) == "!uno ") {
+			if (message.toLowerCase().substring(0,5) == "!uno ") {
 				uno()
 			}
-			
+
 		} //end index increment and message process
 
 
 
 
-	   
+
 	setTimeout(function () {
 
 
-			myLoop(); 
-		
+			myLoop();
+
 		}, 500)
 
 
 
 	}, 1000) //loop delay, close timeout
-	
+
 
 
 
@@ -406,7 +406,7 @@ console.log = function( ){
 
 function loop () {
    setTimeout(function () {
-      acer = _log.history 
+      acer = _log.history
       if (acer.includes("DISCONNECT!") == true) { //detect chat's reset
          disconnected = "true"
          return
@@ -417,7 +417,7 @@ function loop () {
 	 }
       }
       setTimeout(function () {
-         loop();   //restart loop         
+         loop();   //restart loop
       }, 500)
    }, 2000)
 }

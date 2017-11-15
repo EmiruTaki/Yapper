@@ -184,6 +184,43 @@ function rainbow() {
 	}
 }
 
+// Cascading Rainbow Text - By Emiru 11/14/17
+function cacadingRainbow(str, cascade) {
+    var colors = ["ffg0g0", "ffffg0", "00ffg0", "g0ffg0", "g0ff00", "g0ffff", "g000ff", "g0g0ff", "00g0ff", "ffg0ff", "ffg000"];
+    var cIndex = 0;
+    var incriment = true;
+    var charArray = [];
+    var spacing = "";
+
+    for (var i = 0; i < str.length; i++) {
+        // Determine which direction to parse colors array.
+        if (incriment) {
+            cIndex++;
+        } else {
+            cIndex--;
+        }
+
+        // Assign color to each character in an array.
+        charArray[i] = { char: spacing + str[i], color: colors[cIndex] };
+
+        // Cascade?
+        if (cascade) {
+            spacing += '&nbsp;&nbsp;';
+        }
+
+        // Recalculate loop direction for colors.
+        if (cIndex >= colors.length - 1) {
+            incriment = false;
+        } else if (cIndex <= 0) {
+            incriment = true;
+        }
+    }
+
+    $.each(charArray, function (key, value) {
+        setTimeout(function () { backend_sendmessage(0, 0, activeRoom, 0, value.char, false, value.color, false); }, 1000 * key);
+    });
+}
+
 function help() {
 	accessLevel(regular)
 	if (allowed == true) {
@@ -365,8 +402,7 @@ function myLoop () {
 			}
 			if (message.substring(0,5) == "!uno ") {
 				uno()
-			}
-			
+			}			
 		} //end index increment and message process
 
 
